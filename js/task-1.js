@@ -1,21 +1,22 @@
 'use strict';
 
-function slugify(title) {
-  const strings = title.split(' ');
-  const lowercaseArray = [];
+function isEnoughCapacity(products, containerSize) {
+  // Робим змінну для підрахунку загальної кількості товарів
+  let totalSum = 0;
+  const values = Object.values(products); // Отримуємо масив значень (кількостей товарів) з об'єкта products
 
-  for (const string of strings) {
-    lowercaseArray.push(string.toLowerCase());
+  // Перебираємо всі значення масиву values
+  for (const value of values) {
+    totalSum += value; // Тут додаємо значення до загальної суми
   }
-  const slug = lowercaseArray.join('-');
-  return slug;
-  //   return title.toLowerCase().split(' ').join('-');
+  // Повертаємо true, якщо всі товари вміщуються, або false  якщо ні
+  return totalSum <= containerSize;
 }
 
-// Перетворюємо рядок на нижній регістр, розділяємо слова за пробілами, з'єднуємо їх тире
-// return title.toLowerCase().split(' ').join('-');
+console.log(isEnoughCapacity({ apples: 2, grapes: 3, carrots: 1 }, 8)); // true
 
-console.log(slugify('Arrays for beginners')); // "arrays-for-beginners"
-console.log(slugify('English for developer')); // "english-for-developer"
-console.log(slugify('Ten secrets of JavaScript')); // "ten-secrets-of-javascript"
-console.log(slugify('How to become a JUNIOR developer in TWO WEEKS')); // "how-to-become-a-junior-developer-in-two-weeks"
+console.log(isEnoughCapacity({ apples: 4, grapes: 6, lime: 16 }, 12)); // false
+
+console.log(isEnoughCapacity({ apples: 1, lime: 5, tomatoes: 3 }, 14)); // true
+
+console.log(isEnoughCapacity({ apples: 18, potatoes: 5, oranges: 2 }, 7)); // false
